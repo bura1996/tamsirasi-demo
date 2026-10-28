@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#171c2f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,6 +21,9 @@
     main{padding:22px 18px 104px}.section-title{display:flex;align-items:center;justify-content:space-between;margin:3px 3px 13px}.section-title h3{margin:0;font-size:18px}.section-title button{border:0;background:none;color:var(--brand);font-weight:700}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}.stat{background:var(--card);padding:16px;border-radius:18px;box-shadow:0 7px 20px #292d4510}.stat b{font-size:26px}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:4px}.reminder{background:var(--card);border:1px solid var(--line);padding:15px;border-radius:18px;margin:10px 0;display:flex;gap:13px;align-items:center}.reminder .ico{width:45px;height:45px;flex:none;border-radius:14px;background:#eeeaff;display:grid;place-items:center;font-size:21px}.reminder .info{min-width:0;flex:1}.reminder h4{margin:0 0 4px}.reminder p{margin:0;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.badge{font-size:11px;color:var(--ok);background:#e5f8f1;padding:6px 8px;border-radius:10px;font-weight:800}.empty{text-align:center;padding:40px 20px;color:var(--muted)}
     nav{position:absolute;z-index:10;bottom:0;left:0;right:0;padding:9px 10px max(10px,env(safe-area-inset-bottom));display:flex;background:#fffffff2;backdrop-filter:blur(16px);border-top:1px solid var(--line)}nav button{flex:1;border:0;background:transparent;color:#8a8fa4;padding:8px 2px;font-size:11px;font-weight:700}nav button span{display:block;font-size:21px;margin-bottom:3px}nav .active{color:var(--brand)}
     .page-title{margin:0 0 18px}.panel{background:#fff;border-radius:20px;padding:18px;margin-bottom:14px;border:1px solid var(--line)}.panel h3{margin:0 0 7px}.panel p{margin:0;color:var(--muted);font-size:13px}.danger{width:100%;border:1px solid #ffd7da;background:#fff5f5;color:var(--danger);padding:14px;border-radius:14px;font-weight:800;margin-top:10px}.toast{position:absolute;left:22px;right:22px;bottom:92px;background:#171c2f;color:#fff;padding:13px 16px;border-radius:14px;text-align:center;box-shadow:0 12px 28px #10131d49;z-index:20;font-size:13px}
+    .reminder{width:100%;color:var(--ink);text-decoration:none;cursor:pointer;text-align:left}.reminder:active{background:#f0edff}.reminder:focus-visible,button:focus-visible{outline:3px solid var(--brand);outline-offset:3px}.reminder .title{display:block;font-weight:700;margin-bottom:4px}.reminder .place{display:block;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chevron{color:#a1a5b8;font-size:23px}.badge.waiting{background:#fff3dc;color:#946207}.badge.done{background:#edf0f6;color:#59647c}
+    nav{position:fixed;left:50%;right:auto;transform:translateX(-50%);width:min(100%,430px)}.toast{position:fixed;left:50%;right:auto;transform:translateX(-50%);width:calc(min(100%,430px) - 44px);bottom:calc(92px + env(safe-area-inset-bottom))}
+    .detail-main{padding-top:max(20px,env(safe-area-inset-top));padding-bottom:max(32px,env(safe-area-inset-bottom))}.back{border:0;background:transparent;color:var(--brand);font-weight:750;padding:12px 4px;margin-bottom:16px;min-height:44px}.detail-hero{background:#eee9ff;border-radius:24px;padding:24px 20px;margin-bottom:18px}.detail-icon{font-size:36px;display:block;margin-bottom:14px}.eyebrow{color:#736393;font-size:12px;margin:0 0 8px}.detail-hero h2{font-size:27px;margin:0 0 14px;overflow-wrap:anywhere}.detail-hero .badge{display:inline-block}.detail-label{display:block;color:var(--muted);font-size:12px;margin-bottom:8px}.detail-copy{font-size:15px!important;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}.detail-location{display:block;margin-bottom:7px;overflow-wrap:anywhere}.detail-items{list-style:none;padding:0;margin:0}.detail-items li+li{border-top:1px solid var(--line)}.check-item{display:flex;gap:12px;align-items:flex-start;padding:14px 0;line-height:1.5;cursor:pointer}.check-item input{width:21px;height:21px;flex:none;accent-color:var(--brand);margin:1px 0}.check-item span{overflow-wrap:anywhere;min-width:0}.check-item input:checked+span{text-decoration:line-through;color:var(--muted)}.detail-hint{font-size:12px;color:var(--muted);line-height:1.5;margin:13px 3px 0}
   </style>
 </head>
 <body><div class="app">
@@ -40,10 +43,19 @@
       <div class="hero"><p>Konuma dayalı demo</p><h3>Yakındayken hatırlayalım</h3><button id="simulateBtn">Yakınlığı simüle et</button></div>
     </header>
     <main>
-      <section id="homePage"><div class="stats"><div class="stat"><b>3</b><span>Aktif hatırlatma</span></div><div class="stat"><b>7</b><span>Tamamlanan</span></div></div>
+      <section id="homePage"><div class="stats"><div class="stat"><b id="activeCount">0</b><span>Aktif hatırlatma</span></div><div class="stat"><b id="completedCount">0</b><span>Tamamlanan</span></div></div>
         <div class="section-title"><h3>Yakındaki hatırlatmalar</h3><button data-go="reminders">Tümünü gör</button></div><div id="homeList"></div></section>
       <section id="remindersPage" class="hidden"><h2 class="page-title">Hatırlatmalar</h2><div id="allList"></div><button id="addDemo" class="primary">+ Demo hatırlatma ekle</button></section>
-      <section id="profilePage" class="hidden"><h2 class="page-title">Profil</h2><div class="panel"><h3 id="profileName">Misafir</h3><p id="profileEmail">demo@tamsirasi.app</p></div><div class="panel"><h3>Uygulama hakkında</h3><p>TamSırası PWA demo v0.4.0 · iPhone ana ekran testi</p></div><button id="logoutBtn" class="danger">Çıkış yap</button></section>
+      <section id="profilePage" class="hidden"><h2 class="page-title">Profil</h2><div class="panel"><h3 id="profileName">Misafir</h3><p id="profileEmail">demo@tamsirasi.app</p></div><div class="panel"><h3>Uygulama hakkında</h3><p>TamSırası PWA demo v0.4.1 · iPhone ana ekran testi</p></div><button id="logoutBtn" class="danger">Çıkış yap</button></section>
+      <section id="detailPage" class="hidden" aria-labelledby="detailTitle">
+        <button id="backBtn" class="back" type="button">‹ Geri</button>
+        <div class="detail-hero"><span id="detailIcon" class="detail-icon" aria-hidden="true"></span><p class="eyebrow">Örnek hatırlatma · Demo</p><h2 id="detailTitle" tabindex="-1"></h2><span id="detailStatus" class="badge"></span></div>
+        <div class="panel"><span class="detail-label">İlgili yer</span><strong id="detailLocation" class="detail-location"></strong><p id="detailPlace"></p></div>
+        <div class="panel"><h3>Notlar</h3><p id="detailNotes" class="detail-copy"></p></div>
+        <div id="checklistPanel" class="panel"><h3>Yapılacaklar</h3><ul id="detailItems" class="detail-items"></ul></div>
+        <button id="completeBtn" class="primary" type="button">Tamamlandı olarak işaretle</button>
+        <p class="detail-hint">İşaretlediklerin bu cihazda saklanır. Yerler ve mesafeler örnektir; gerçek konum takibi yapılmaz.</p>
+      </section>
     </main>
     <nav><button class="active" data-page="home"><span>⌂</span>Ana Sayfa</button><button data-page="reminders"><span>✓</span>Hatırlatmalar</button><button data-page="profile"><span>●</span>Profil</button></nav>
     <div id="toast" class="toast hidden"></div>
@@ -51,17 +63,75 @@
 </div><script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let mode='login'; const defaults=[{icon:'🛒',title:'Market alışverişi',place:'Favori marketine 240 m',active:true},{icon:'💊',title:'Vitaminleri al',place:'Eczaneye 430 m',active:true},{icon:'📦',title:'Kargoyu teslim et',place:'Kargo şubesine 800 m',active:false}];
-let reminders=JSON.parse(localStorage.getItem('ts_reminders')||'null')||defaults;
+const detailTemplates={
+  'Market alışverişi':{location:'Favori marketin',notes:'Eve dönmeden eksikleri al. Bez alışveriş çantasını yanına almayı unutma.',items:['Süt','Yumurta','Ekmek','Domates']},
+  'Vitaminleri al':{location:'Eczane',notes:'Almayı planladığın ürünü eczacıya sor. Ürün adını kontrol etmek için kutunun fotoğrafını yanında bulundur.',items:['Kutu fotoğrafını hazırla','Eczacıya danış']},
+  'Kargoyu teslim et':{location:'Kargo şubesi',notes:'İade paketini şubeye bırak. İade kodunu hazır tut ve teslim fişini sakla.',items:['Paketi hazırla','İade kodunu kontrol et','Teslim fişini al']},
+  'Kahve çekirdeği al':{location:'Favori kafen',notes:'Ev için kahve çekirdeği al. Demleme yöntemine uygun öğütme seçeneğini sor.',items:['250 g kahve çekirdeği','Öğütme seçeneğini sor']}
+};
+function loadReminders(){try{const saved=JSON.parse(localStorage.getItem('ts_reminders'));return Array.isArray(saved)?saved:defaults}catch{return defaults}}
+function normalizeReminders(rows){const ids=new Set();return rows.filter(r=>r&&typeof r==='object').map((r,index)=>{
+  const template=detailTemplates[r.title]||{location:'Seçilen yer',notes:'Bu hatırlatmaya henüz not eklenmemiş.',items:[]};
+  let id=typeof r.id==='string'&&r.id?r.id:'reminder-'+index;while(ids.has(id))id+='-copy';ids.add(id);
+  return {...r,id,completed:r.completed===true,location:r.location??template.location,notes:r.notes??template.notes,items:(Array.isArray(r.items)?r.items:template.items).map(item=>typeof item==='string'?{text:item,checked:false}:{text:String(item?.text??''),checked:item?.checked===true})};
+})}
+let reminders=normalizeReminders(loadReminders());
+let selectedId=null,currentPage='home',returnPage='home',returnScroll=0,enteredFromList=false;
+function persist(){localStorage.setItem('ts_reminders',JSON.stringify(reminders))}
+function statusOf(r){return r.completed?'Tamamlandı':r.active?'Aktif':'Bekliyor'}
+function badgeClass(r){return 'badge'+(r.completed?' done':r.active?'':' waiting')}
 function setMode(next){mode=next;$('#loginTab').classList.toggle('active',next==='login');$('#registerTab').classList.toggle('active',next==='register');$('#nameField').classList.toggle('hidden',next==='login');$('#submitBtn').textContent=next==='login'?'Giriş Yap':'Hesap Oluştur';$('#password').autocomplete=next==='login'?'current-password':'new-password';$('#error').textContent=''}
 function showToast(t){$('#toast').textContent=t;$('#toast').classList.remove('hidden');setTimeout(()=>$('#toast').classList.add('hidden'),2200)}
-function card(r){return `<div class="reminder"><div class="ico">${r.icon}</div><div class="info"><h4>${r.title}</h4><p>${r.place}</p></div><span class="badge">${r.active?'Aktif':'Bekliyor'}</span></div>`}
-function render(){localStorage.setItem('ts_reminders',JSON.stringify(reminders));$('#homeList').innerHTML=reminders.slice(0,2).map(card).join('');$('#allList').innerHTML=reminders.length?reminders.map(card).join(''):'<div class="empty">Henüz hatırlatma yok.</div>'}
-function enter(user){localStorage.setItem('ts_user',JSON.stringify(user));$('#auth').classList.add('hidden');$('#shell').classList.remove('hidden');$('#welcomeName').textContent=user.name;$('#profileName').textContent=user.name;$('#profileEmail').textContent=user.email;$('#avatar').textContent=(user.name[0]||'M').toUpperCase();render()}
+function element(tag,className,text){const el=document.createElement(tag);el.className=className;if(text!==undefined)el.textContent=text;return el}
+function card(r){
+  const link=element('a','reminder');link.href='#reminder/'+encodeURIComponent(r.id);link.dataset.reminderId=r.id;
+  const icon=element('span','ico',r.icon);icon.setAttribute('aria-hidden','true');
+  const info=element('span','info');info.append(element('span','title',r.title),element('span','place',r.place));
+  const arrow=element('span','chevron','›');arrow.setAttribute('aria-hidden','true');
+  link.append(icon,info,element('span',badgeClass(r),statusOf(r)),arrow);return link;
+}
+function render(){persist();$('#homeList').replaceChildren(...reminders.slice(0,2).map(card));$('#allList').replaceChildren(...(reminders.length?reminders.map(card):[element('div','empty','Henüz hatırlatma yok.')]));$('#activeCount').textContent=reminders.filter(r=>r.active&&!r.completed).length;$('#completedCount').textContent=reminders.filter(r=>r.completed).length}
+function renderDetail(r){
+  $('#detailIcon').textContent=r.icon;$('#detailTitle').textContent=r.title;$('#detailStatus').textContent=statusOf(r);$('#detailStatus').className=badgeClass(r);$('#detailLocation').textContent=r.location;$('#detailPlace').textContent=r.place;$('#detailNotes').textContent=r.notes;
+  $('#backBtn').textContent='‹ '+(returnPage==='home'?'Ana sayfaya dön':'Hatırlatmalara dön');
+  $('#completeBtn').textContent=r.completed?'Yeniden aç':'Tamamlandı olarak işaretle';
+  $('#checklistPanel').classList.toggle('hidden',!r.items.length);
+  $('#detailItems').replaceChildren(...r.items.map(item=>{
+    const row=element('li',''),label=element('label','check-item'),input=document.createElement('input');input.type='checkbox';input.checked=item.checked;
+    input.onchange=()=>{item.checked=input.checked;persist()};label.append(input,element('span','',item.text));row.append(label);return row;
+  }));
+}
+function showPage(page){['home','reminders','profile','detail'].forEach(p=>$('#'+p+'Page').classList.toggle('hidden',p!==page));$('header').classList.toggle('hidden',page==='detail');$('nav').classList.toggle('hidden',page==='detail');$('main').classList.toggle('detail-main',page==='detail');$$('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));currentPage=page}
+function route(){
+  if($('#shell').classList.contains('hidden'))return;
+  const hash=location.hash.slice(1);
+  if(hash.startsWith('reminder/')){
+    let id;try{id=decodeURIComponent(hash.slice(9))}catch{id=''}
+    const reminder=reminders.find(r=>r.id===id);
+    if(reminder){
+      const origin=history.state?.reminderOrigin;
+      enteredFromList=!!origin&&['home','reminders'].includes(origin.page);
+      returnPage=enteredFromList?origin.page:'reminders';returnScroll=enteredFromList?origin.scroll:0;
+      selectedId=id;showPage('detail');renderDetail(reminder);window.scrollTo(0,0);$('#detailTitle').focus({preventScroll:true});return;
+    }
+    history.replaceState(null,'','#reminders');
+  }
+  const page=['home','reminders','profile'].includes(hash)?hash:hash.startsWith('reminder/')?'reminders':'home';
+  const fromDetail=currentPage==='detail',previousId=selectedId,changed=currentPage!==page;selectedId=null;showPage(page);
+  if(fromDetail){window.scrollTo(0,returnScroll);const target=$$('#'+page+'Page [data-reminder-id]').find(el=>el.dataset.reminderId===previousId);target?.focus({preventScroll:true})}else if(changed)window.scrollTo(0,0);
+}
+function enter(user){localStorage.setItem('ts_user',JSON.stringify(user));$('#auth').classList.add('hidden');$('#shell').classList.remove('hidden');$('#welcomeName').textContent=user.name;$('#profileName').textContent=user.name;$('#profileEmail').textContent=user.email;$('#avatar').textContent=(user.name[0]||'M').toUpperCase();render();route()}
 $('#loginTab').onclick=()=>setMode('login');$('#registerTab').onclick=()=>setMode('register');
 $('#authForm').onsubmit=e=>{e.preventDefault();const email=$('#email').value.trim(),pass=$('#password').value,name=$('#name').value.trim();if(pass.length<6){$('#error').textContent='Şifre en az 6 karakter olmalı.';return}if(mode==='register'){if(!name){$('#error').textContent='Lütfen adını yaz.';return}localStorage.setItem('ts_account',JSON.stringify({name,email,password:pass}));enter({name,email})}else{const saved=JSON.parse(localStorage.getItem('ts_account')||'null');if(saved&&saved.email===email&&saved.password===pass)enter(saved);else $('#error').textContent='Demo için “Demo hesapla devam et” seçeneğini kullanabilirsin.'}}
 $('#demoBtn').onclick=()=>enter({name:'Demo Kullanıcı',email:'demo@tamsirasi.app'});$('#logoutBtn').onclick=()=>{localStorage.removeItem('ts_user');location.reload()};
-function go(page){['home','reminders','profile'].forEach(p=>$('#'+p+'Page').classList.toggle('hidden',p!==page));$$('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page))}
+function go(page){location.hash=page}
+// Store the origin in history so Back/Forward and refreshing a detail retain it.
+['#homeList','#allList'].forEach(selector=>$(selector).addEventListener('click',event=>{const link=event.target.closest('[data-reminder-id]');if(!link||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();history.pushState({reminderOrigin:{page:currentPage,scroll:window.scrollY}},'',link.href);route()}));
+window.addEventListener('hashchange',route);
+window.addEventListener('popstate',route);
+$('#backBtn').onclick=()=>{if(enteredFromList)history.back();else{history.replaceState(null,'','#reminders');route()}};
+$('#completeBtn').onclick=()=>{const r=reminders.find(item=>item.id===selectedId);if(!r)return;r.completed=!r.completed;render();renderDetail(r);showToast(r.completed?'Hatırlatma tamamlandı ✓':'Hatırlatma yeniden açıldı')};
 $$('[data-page]').forEach(b=>b.onclick=()=>go(b.dataset.page));$$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
-$('#simulateBtn').onclick=()=>showToast('Market alışverişi için doğru yerdesin! 🎉');$('#addDemo').onclick=()=>{reminders.push({icon:'☕',title:'Kahve çekirdeği al',place:'Favori kafene 1,2 km',active:true});render();showToast('Demo hatırlatma eklendi')};
+$('#simulateBtn').onclick=()=>showToast('Market alışverişi için doğru yerdesin! 🎉');$('#addDemo').onclick=()=>{reminders=normalizeReminders([...reminders,{icon:'☕',title:'Kahve çekirdeği al',place:'Favori kafene 1,2 km',active:true}]);render();showToast('Demo hatırlatma eklendi')};
 const current=JSON.parse(localStorage.getItem('ts_user')||'null');if(current)enter(current);if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
   </script></body></html>
